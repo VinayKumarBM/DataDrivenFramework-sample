@@ -35,7 +35,7 @@ public class Listener implements ITestListener{
 	public void onTestFailure(ITestResult result) {
 		String testCaseName = result.getName();
 		String status = testCaseName+ConfigProperties.getProperty("testCaseFail");	
-		String imageFilePath = CommonFunctions.takeFullScreenShot(TestBase.driver, testCaseName+"_Failed_");
+		String imageFilePath = CommonFunctions.takeFullScreenShot(TestBase.driver, testCaseName+"_Failed");
 		try {
 			ReportManager.getTest().error("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(imageFilePath, status).build());
 		} catch (IOException e) {
