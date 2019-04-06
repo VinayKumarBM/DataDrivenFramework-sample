@@ -16,6 +16,8 @@ public class ReportManager {
 
 	//Create an extent report instance
 	private static ExtentReports createInstance() {
+		CommonFunctions.createDirectory(fileName);
+		fileName = fileName+"test-report.html";
 		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
 		htmlReporter.loadXMLConfig(new File(extentConfigFilePath));
 		extent = new ExtentReports();

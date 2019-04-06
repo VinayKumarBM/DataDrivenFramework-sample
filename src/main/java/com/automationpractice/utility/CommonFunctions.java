@@ -2,6 +2,9 @@ package com.automationpractice.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +25,7 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 public class CommonFunctions {
 	private static Logger log = Logger.getLogger(CommonFunctions.class.getName());
 	public static final String basePath = System.getProperty("user.dir");
+	public static String screenShotFolderPath = basePath+ConfigProperties.getProperty("screenShotFolderPath");
 	
 	public static WebDriver launchBrowser(WebDriver driver, String url){
 		log.info("Launching Browser.");
@@ -40,10 +44,10 @@ public class CommonFunctions {
 	}
 
 	public static String takeScreenShot(WebDriver driver,String testCaseName){
+		createDirectory(screenShotFolderPath);
 		// Take screenshot and store as a file format
 		File src= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		String screenShotFilePath = basePath+ConfigProperties.getProperty("screenShotFolderPath")
-								+testCaseName+"_"+getStringDate("ddMMyyyy_HHmmss")+ConfigProperties.getProperty("fileFormat");
+		String screenShotFilePath = screenShotFolderPath+testCaseName+"_"+getStringDate("ddMMyyyy_HHmmss")+ConfigProperties.getProperty("fileFormat");
 		try{
 			FileUtils.copyFile(src, new File(screenShotFilePath));
 		}
@@ -54,9 +58,9 @@ public class CommonFunctions {
 	}
 	
 	public static String takeFullScreenShot(WebDriver driver,String testCaseName){
-		// Take full screenshot and store as a file format
-		String screenShotFilePath = basePath+ConfigProperties.getProperty("screenShotFolderPath")+testCaseName
-				+"_"+getStringDate("ddMMyyyy_HHmmss")+ConfigProperties.getProperty("fileFormat");
+		createDirectory(screenShotFolderPath);
+		// Take full screenshot and store as a file format		
+		String screenShotFilePath = screenShotFolderPath+testCaseName+"_"+getStringDate("ddMMyyyy_HHmmss")+ConfigProperties.getProperty("fileFormat");
 		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
 		try {
 			ImageIO.write(screenshot.getImage(),"PNG",new File(screenShotFilePath));
@@ -70,5 +74,21 @@ public class CommonFunctions {
 		SimpleDateFormat dtf = new SimpleDateFormat(dateFormat);  
 	    Date localDate = new Date();  
 		return dtf.format(localDate).toString();
+	}
+	
+	public static boolean createDirectory(String folderPath) {
+		Path path = Paths.get(folderPath);
+        //if directory exists?
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+                log.info("Directory was created.");
+                return true;
+            } catch (IOException exp) {
+                log.error(exp.getMessage(), exp);
+                return false;
+            }
+        }
+        return true;
 	}
 }
