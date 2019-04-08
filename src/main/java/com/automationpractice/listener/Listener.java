@@ -7,10 +7,10 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import com.automationpractice.runner.TestBase;
-import com.automationpractice.utility.CommonFunctions;
 import com.automationpractice.utility.ConfigProperties;
 import com.automationpractice.utility.Log;
 import com.automationpractice.utility.ReportManager;
+import com.automationpractice.utility.ScreenshotUtility;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 
@@ -35,7 +35,7 @@ public class Listener implements ITestListener{
 	public void onTestFailure(ITestResult result) {
 		String testCaseName = result.getName();
 		String status = testCaseName+ConfigProperties.getProperty("testCaseFail");	
-		String imageFilePath = CommonFunctions.takeFullScreenShot(TestBase.driver, testCaseName+"_Failed");
+		String imageFilePath = ScreenshotUtility.takeFullScreenShot(TestBase.driver, testCaseName+"_Failed");
 		try {
 			ReportManager.getTest().error("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(imageFilePath, status).build());
 		} catch (IOException e) {

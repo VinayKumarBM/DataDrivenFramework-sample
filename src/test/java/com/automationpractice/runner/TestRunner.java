@@ -10,21 +10,21 @@ import com.automationpractice.scripts.ProductCheckoutScript;
 @Listeners (com.automationpractice.listener.Listener.class)
 public class TestRunner extends TestBase{
 
-	@Test
+	@Test (groups = { "regression"})
 	public void TC001_CreateNewAccount() {
 		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		CreateAccountScript createAccountScript = new CreateAccountScript(driver);
 		createAccountScript.createAnAccount(testCaseName);
 	}
 
-	@Test
+	@Test (groups = { "regression","smoke"})
 	public void TC002_PurchasePrintedSummaryDress() {
 		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(driver);
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
-	@Test
+	@Test (groups = { "regression"}) 
 	public void TC003_PurchasePrintedChiffonDress() {
 		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(driver);

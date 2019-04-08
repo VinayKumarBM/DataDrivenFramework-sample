@@ -29,7 +29,7 @@
 					<!-- Build with '-DskipTests=true' to bypass test execution @ build 
 						time Default: false -->
 					<skipTests>${skipTests}</skipTests>
-					<testFailureIgnore>true</testFailureIgnore>
+					<testFailureIgnore>false</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<plugin>

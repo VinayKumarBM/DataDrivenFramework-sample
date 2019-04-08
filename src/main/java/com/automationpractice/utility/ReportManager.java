@@ -11,8 +11,9 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 public class ReportManager {
 	private static ExtentReports extent;
 	static Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
-	private static String fileName = CommonFunctions.basePath+ConfigProperties.getProperty("reportPath");
-	private static String extentConfigFilePath = CommonFunctions.basePath+"/extent-config.xml";
+	private static String basePath = GlobalVariable.basePath;
+	private static String fileName = basePath+ConfigProperties.getProperty("reportPath");
+	private static String extentConfigFilePath = basePath+"/extent-config.xml";
 
 	//Create an extent report instance
 	private static ExtentReports createInstance() {

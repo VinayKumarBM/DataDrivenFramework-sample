@@ -11,12 +11,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelUtils {
+public class ExcelUtility {
 	private static XSSFSheet excelSheet;
 	private static XSSFWorkbook excelWorkbook;
 	private static XSSFCell cell;
 	private static XSSFRow row;
-	private static Logger log = Logger.getLogger(ExcelUtils.class.getName());
+	private static Logger log = Logger.getLogger(ExcelUtility.class.getName());
 
 	public static void setExcelFile(String sheetPath,String sheetName) throws Exception {
 		try{
@@ -35,7 +35,7 @@ public class ExcelUtils {
 		try{
 			int rowCount = excelSheet.getLastRowNum();
 			for(row=0; row< rowCount; row++){
-				if(ExcelUtils.getCellData(row, testCaseColumn).equalsIgnoreCase(testCaseName)){
+				if(ExcelUtility.getCellData(row, testCaseColumn).equalsIgnoreCase(testCaseName)){
 					break;
 				}
 			}
@@ -114,7 +114,7 @@ public class ExcelUtils {
 
 	public static void main(String []args) {
 		Map<String,String> dataMap = new HashMap<String, String>();
-		String excelSheetPath = CommonFunctions.basePath+ConfigProperties.getProperty("testDataPath")
+		String excelSheetPath = GlobalVariable.basePath+ConfigProperties.getProperty("testDataPath")
 		+ConfigProperties.getProperty("excelSheetName");
 		dataMap = getData("TC002_PurchaseDress", excelSheetPath,ConfigProperties.getProperty("testDataSheetName"));
 		for(Map.Entry<String, String> data: dataMap.entrySet()) {
