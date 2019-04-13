@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 public class ResourceUtility {
 	
-	private static Logger log = Logger.getLogger(DateUtility.class.getName());
+	private static Logger log = Logger.getLogger(ResourceUtility.class.getName());
 	
 	public static String getScreenShotFolderPath() {
 		String screenShotFolderPath = GlobalVariable.basePath +ConfigReader.getProperty("screenShotFolderPath");
@@ -33,7 +33,7 @@ public class ResourceUtility {
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
-                log.info("Directory was created.");
+                log.info("Directory was created.\n"+folderPath);
                 return true;
             } catch (IOException exp) {
                 log.error(exp.getMessage(), exp);
