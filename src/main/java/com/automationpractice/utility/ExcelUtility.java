@@ -114,9 +114,9 @@ public class ExcelUtility {
 
 	public static void main(String []args) {
 		Map<String,String> dataMap = new HashMap<String, String>();
-		String excelSheetPath = GlobalVariable.basePath+ConfigProperties.getProperty("testDataPath")
-		+ConfigProperties.getProperty("excelSheetName");
-		dataMap = getData("TC002_PurchaseDress", excelSheetPath,ConfigProperties.getProperty("testDataSheetName"));
+		String excelSheetPath = GlobalVariable.basePath+ConfigReader.getProperty("testDataPath")
+		+ConfigReader.getProperty("excelSheetName");
+		dataMap = getData("TC002_PurchaseDress", excelSheetPath,ConfigReader.getProperty("testDataSheetName"));
 		for(Map.Entry<String, String> data: dataMap.entrySet()) {
 			System.out.println(data.getKey()+ " ==> " + data.getValue());
 		}

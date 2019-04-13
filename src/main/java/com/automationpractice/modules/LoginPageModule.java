@@ -6,7 +6,7 @@ import java.util.Random;
 import org.openqa.selenium.WebDriver;
 
 import com.automationpractice.pageobjects.LoginPageObject;
-import com.automationpractice.utility.ConfigProperties;
+import com.automationpractice.utility.ConfigReader;
 
 public class LoginPageModule {
 
@@ -26,8 +26,8 @@ public class LoginPageModule {
 	}
 	
 	public void loginToMyStore(Map<String, String> testDataMap) {
-		loginPageObject.enterEmailToSignin(testDataMap.get(ConfigProperties.getProperty("emailIDColumn")));
-		loginPageObject.enterPassword(testDataMap.get(ConfigProperties.getProperty("passwordColumn")));
+		loginPageObject.enterEmailToSignin(testDataMap.get(ConfigReader.getProperty("emailIDColumn")));
+		loginPageObject.enterPassword(testDataMap.get(ConfigReader.getProperty("passwordColumn")));
 		loginPageObject.clickOnLoginButton();
 	}
 

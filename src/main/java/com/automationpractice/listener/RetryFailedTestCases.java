@@ -8,7 +8,7 @@ public class RetryFailedTestCases implements IRetryAnalyzer {
 	private Logger log = Logger.getLogger(RetryFailedTestCases.class.getName());
 	private int retryCount = 0;
 	// If there are any failed test cases, then it runs 2 times
-	private int maxRetryCount = 2;
+	private int maxRetryCount = 1;
 	
 	@Override
 	public boolean retry(ITestResult arg0) {

@@ -12,13 +12,11 @@ public class ReportManager {
 	private static ExtentReports extent;
 	static Map<Integer, ExtentTest> extentTestMap = new HashMap<Integer, ExtentTest>();
 	private static String basePath = GlobalVariable.basePath;
-	private static String fileName = basePath+ConfigProperties.getProperty("reportPath");
 	private static String extentConfigFilePath = basePath+"/extent-config.xml";
 
 	//Create an extent report instance
 	private static ExtentReports createInstance() {
-		CommonFunctions.createDirectory(fileName);
-		fileName = fileName+"test-report.html";
+		String fileName = ResourceUtility.getReportFolderPath()+"test-report.html";
 		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
 		htmlReporter.loadXMLConfig(new File(extentConfigFilePath));
 		extent = new ExtentReports();

@@ -1,17 +1,12 @@
 package com.automationpractice.listener;
 
-import java.io.IOException;
-
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import com.automationpractice.runner.TestBase;
-import com.automationpractice.utility.ConfigProperties;
+import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.Log;
 import com.automationpractice.utility.ReportManager;
-import com.automationpractice.utility.ScreenshotUtility;
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 
 public class Listener implements ITestListener{
@@ -34,23 +29,16 @@ public class Listener implements ITestListener{
 	@Override
 	public void onTestFailure(ITestResult result) {
 		String testCaseName = result.getName();
-		String status = testCaseName+ConfigProperties.getProperty("testCaseFail");	
-		String imageFilePath = ScreenshotUtility.takeFullScreenShot(TestBase.driver, testCaseName+"_Failed");
-		try {
-			ReportManager.getTest().error("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(imageFilePath, status).build());
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.error("Error occured while attaching screenshot: "+e.getMessage());
-		}
+		String status = testCaseName+ConfigReader.getProperty("testCaseFail");	
 		Log.error(status);
 		Log.endTestCase(testCaseName);	
-		ReportManager.getTest().log(Status.FAIL, status);
+		ReportManager.getTest().log(Status.FAIL, status+"\n"+result.getThrowable());
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		String testCaseName = result.getName();
-		String status = testCaseName+ConfigProperties.getProperty("testCaseSkipped");
+		String status = testCaseName+ConfigReader.getProperty("testCaseSkipped");
 		Log.info(status);
 		ReportManager.getTest().log(Status.SKIP, status);
 	}
@@ -64,7 +52,7 @@ public class Listener implements ITestListener{
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		String testCaseName = result.getName();
-		String status = testCaseName+ConfigProperties.getProperty("testCasePass");
+		String status = testCaseName+ConfigReader.getProperty("testCasePass");
 		Log.info(status);
 		Log.endTestCase(testCaseName);
 		ReportManager.getTest().log(Status.PASS, status);

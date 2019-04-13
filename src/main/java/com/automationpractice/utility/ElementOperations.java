@@ -1,5 +1,7 @@
 package com.automationpractice.utility;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -14,24 +16,74 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ElementOperations {
-	private static Logger log = Logger.getLogger(ElementOperations.class.getName());
-	private static Long waitTime = Long.parseLong(ConfigProperties.getProperty("webDriverWaitTime"));
+	private Logger log = Logger.getLogger(ElementOperations.class.getName());
+	private Long waitTime = Long.parseLong(ConfigReader.getProperty("webDriverWaitTime"));
+	private WebDriver driver = null;
+	
+	public ElementOperations(WebDriver driver) {
+		this.driver = driver;
+	}
 
-	public static void clickOnWebElement(WebElement element, WebDriver driver){
+	public void highlightElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].style.border='4px solid yellow'", element);
+		pause(2);
+		js.executeScript("arguments[0].style.border=''", element);
+	}
+	
+	public void clickOnWebElement(WebElement element){
 		((JavascriptExecutor)driver).executeScript("arguments[0].click();",element);
 	}	
 
-	public static void selectByVisibleText(WebElement element, String visibleText){
+	public void selectByVisibleText(WebElement element, String visibleText){
 		Select select = new Select(element);
 		select.selectByVisibleText(visibleText);
 	}	
 
-	public static void waitForElementToBeClickable(WebDriver driver, WebElement element){
+	public void selectByIndex(WebElement element, int index){
+		Select select = new Select(element);
+		select.selectByIndex(index);
+	}
+	
+	public String getSelectedValue(WebElement element) {
+		String value = new Select(element).getFirstSelectedOption().getText();
+		log.info("Selected Value : "+ value);
+		return value;
+	}
+	
+	public List<String> getAllSelectedValues(WebElement locator) {
+		Select select = new Select(locator);
+		List<WebElement> elementList = select.getAllSelectedOptions();
+		return getListValue(elementList);
+	}
+
+	public List<String> getAllDropDownValues(WebElement locator) {
+		Select select = new Select(locator);
+		List<WebElement> elementList = select.getOptions();
+		return getListValue(elementList);
+	}
+
+	private List<String> getListValue(List<WebElement> elementList) {
+		List<String> valueList = new LinkedList<String>();
+		
+		for (WebElement element : elementList) {
+			Log.info(element.getText());
+			valueList.add(element.getText());
+		}
+		return valueList;
+	}
+	
+	public void waitForElementToBeClickable(WebElement element){
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
+	
+	public void waitForElementToBeClickable(int numberOfWindow){
+		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+		wait.until(ExpectedConditions.numberOfWindowsToBe(numberOfWindow));
+	}
 
-	public static boolean isElementPresent(WebDriver driver,By byElement) {
+	public boolean isElementPresent(By byElement) {
 		try{
 			driver.findElement(byElement);
 			log.info("Element is present");
@@ -42,22 +94,56 @@ public class ElementOperations {
 		}
 	}
 
-	public static void switchToNewWindow(WebDriver driver, String mainWindow) {
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-
+	public void switchToFrame(WebElement element) {
+		driver.switchTo().frame(element);
+		log.info("Switched to new frame");
+	}
+	
+	public void switchToFrame(String nameOrId) {
+		driver.switchTo().frame(nameOrId);
+		log.info("Switched to new frame");
+	}
+	
+	public void switchToParentFrame() {
+		driver.switchTo().parentFrame();
+		log.info("Switched to Parent Frame");
+	}
+	
+	public void switchToParentWindow() {
+		driver.switchTo().defaultContent();
+		log.info("Switched to Parent Window");
+	}
+	
+	public void switchToNewWindow() {
+		String mainWindow = driver.getWindowHandle();
 		Set<String> windowHandles = driver.getWindowHandles();
 		Log.info("Number of Windows: "+windowHandles.size());
 		for (String handle: windowHandles) {
 			if (!mainWindow.equals(handle)) {
 				driver.switchTo().window(handle);
 				driver.manage().window().maximize();
-				log.info("Window Title: "+driver.getTitle());
+				log.info("Switched to New Window with Title: "+driver.getTitle());
 			}
 		}
 	}
+	
+	public void switchToParentWithChildClose() {
+		String mainWindow = driver.getWindowHandle();
+		Set<String> windowHandles = driver.getWindowHandles();
+		Log.info("Number of Windows: "+windowHandles.size());
+		int i=1;
+		for (String handle: windowHandles) {
+			if (!mainWindow.equals(handle)) {
+				driver.switchTo().window(handle);
+				driver.close();
+				log.info("Closed Child Window: "+i);
+				i++;
+			}
+		}
+		driver.switchTo().window(mainWindow);
+	}
 
-	public static void pause(int seconds){
+	public void pause(int seconds){
 		try {
 			Thread.sleep(seconds*1000);
 		} catch (InterruptedException e) {
@@ -65,24 +151,31 @@ public class ElementOperations {
 		}
 	}
 
-	public static void scrollToElement(WebElement element,WebDriver driver){		
+	public void scrollToElement(WebElement element){		
 		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
 	}
 	
-	public static void scrollToBottom(WebDriver driver){		
+	public void scrollToBottom(){		
 		((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
 	}
 
-	public static void waitForAlert(WebDriver driver){
+	public void scrollToTop(){		
+		((JavascriptExecutor)driver).executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+	}
+	
+	public void zoomInByPercentage(String percentage){		
+		((JavascriptExecutor)driver).executeScript("document.body.style.zoom='"+percentage+"%'");
+	}
+	
+	public void waitForAlert(){
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 		wait.until(ExpectedConditions.alertIsPresent());
 	}
 
-	public static String getAlertMessageAndAccept(WebDriver driver){
+	public String getAlertMessageAndAccept(){
 		String message = null;
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, waitTime);
-			wait.until(ExpectedConditions.alertIsPresent());
+			waitForAlert();
 			Alert alert = driver.switchTo().alert();		
 			message = alert.getText();
 			log.info("Alert message: "+message);
@@ -93,7 +186,21 @@ public class ElementOperations {
 		return message;
 	}
 
-	public static boolean isAlertPresent(WebDriver driver) {
+	public String getAlertMessageAndDismiss(){
+		String message = null;
+		try {
+			waitForAlert();
+			Alert alert = driver.switchTo().alert();		
+			message = alert.getText();
+			log.info("Alert message: "+message);
+			alert.dismiss();
+		}catch (Exception e) {
+			log.info("Alert was not present");
+		}
+		return message;
+	}
+	
+	public boolean isAlertPresent() {
 		try{
 			driver.switchTo().alert();
 			return true;

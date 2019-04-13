@@ -9,10 +9,10 @@ import org.testng.Assert;
 import com.automationpractice.modules.HomePageModule;
 import com.automationpractice.modules.LoginPageModule;
 import com.automationpractice.modules.MyAccountPageModule;
-import com.automationpractice.utility.ConfigProperties;
+import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.ExcelUtility;
-import com.automationpractice.utility.GlobalVariable;
 import com.automationpractice.utility.ReportManager;
+import com.automationpractice.utility.ResourceUtility;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
@@ -22,7 +22,7 @@ public class LoginScript {
 	private HomePageModule homePageModule;
 	private LoginPageModule loginPageModule;
 	private MyAccountPageModule myAccountPageModule;
-	private String basePath = GlobalVariable.basePath;
+	private String excelSheetPath = ResourceUtility.getDataFolderPath();
 
 	public LoginScript(WebDriver driver) {
 		this.driver = driver;
@@ -34,10 +34,8 @@ public class LoginScript {
 	public void loginTest(String testCaseName) {
 		ExtentTest test = ReportManager.getTest();
 		try {
-			String excelSheetPath = basePath+ConfigProperties.getProperty("testDataPath")
-			+ConfigProperties.getProperty("excelSheetName");
 			Map<String, String> testDataMap = ExcelUtility.getData(testCaseName, excelSheetPath, 
-					ConfigProperties.getProperty("testDataSheetName"));
+					ConfigReader.getProperty("testDataSheetName"));
 
 			homePageModule.navigateToLoginPage();
 			test.log(Status.INFO, "Navigated to login page.");

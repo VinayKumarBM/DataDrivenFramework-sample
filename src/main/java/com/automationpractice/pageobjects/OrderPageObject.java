@@ -9,14 +9,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
-import com.automationpractice.utility.ConfigProperties;
+import com.automationpractice.utility.ConfigReader;
 
 public class OrderPageObject {
 	private static final Logger log = Logger.getLogger(OrderPageObject.class.getName());
 	
 	public OrderPageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
-				Integer.parseInt(ConfigProperties.getProperty("webDriverWaitTime"))), this);
+				Integer.parseInt(ConfigReader.getProperty("webDriverWaitTime"))), this);
 	}
 	
 	@FindBy(xpath = "//div[@id='center_column']//a[@title='Proceed to checkout']/span")

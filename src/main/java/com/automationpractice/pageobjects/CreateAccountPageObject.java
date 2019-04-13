@@ -8,14 +8,14 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import com.automationpractice.utility.ConfigProperties;
+import com.automationpractice.utility.ConfigReader;
 
 public class CreateAccountPageObject {
 	private static final Logger log = Logger.getLogger(CreateAccountPageObject.class);
 	
 	public CreateAccountPageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
-				Integer.parseInt(ConfigProperties.getProperty("webDriverWaitTime"))), this);
+				Integer.parseInt(ConfigReader.getProperty("webDriverWaitTime"))), this);
 	}
 
 	@FindBy(id = "id_gender1")
