@@ -21,7 +21,7 @@ public class ScreenshotUtility {
 	public static String takeScreenShot(WebDriver driver,String testCaseName){
 		// Take screenshot and store as a file format
 		File src= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		String screenShotFilePath = ResourceUtility.getScreenShotFolderPath()+testCaseName+"_"+DateUtility.getStringDate("ddMMyyyy_HHmmss")
+		String screenShotFilePath = ResourceUtility.getScreenShotFolderPath()+testCaseName+DateUtility.getStringDate("_ddMMyyyy_HHmmss")
 										+ConfigReader.getProperty("fileFormat");
 		try{
 			FileUtils.copyFile(src, new File(screenShotFilePath));
@@ -34,7 +34,7 @@ public class ScreenshotUtility {
 	
 	public static String takeFullScreenShot(WebDriver driver,String testCaseName){
 		// Take full screenshot and store as a file format		
-		String screenShotFilePath = ResourceUtility.getScreenShotFolderPath()+testCaseName+"_"+DateUtility.getStringDate("ddMMyyyy_HHmmss")
+		String screenShotFilePath = ResourceUtility.getScreenShotFolderPath()+testCaseName+DateUtility.getStringDate("_ddMMyyyy_HHmmss")
 										+ConfigReader.getProperty("fileFormat");
 		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
 		try {

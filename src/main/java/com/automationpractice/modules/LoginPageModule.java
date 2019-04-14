@@ -1,12 +1,12 @@
 package com.automationpractice.modules;
 
 import java.util.Map;
-import java.util.Random;
 
 import org.openqa.selenium.WebDriver;
 
 import com.automationpractice.pageobjects.LoginPageObject;
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.DateUtility;
 
 public class LoginPageModule {
 
@@ -17,9 +17,7 @@ public class LoginPageModule {
 	}
 	
 	public String enterEmailAddressToCreateAccount() {
-		Random random = new Random();
-		int randNumb = random.nextInt(999);
-		String email = String.format("test%s@gmail.com", randNumb);
+		String email = String.format("test%s@gmail.com", DateUtility.getStringDate("DDhhmmss"));
 		loginPageObject.enterEmailToCreateAccount(email);
 		loginPageObject.clickOnCreateAccountButton();
 		return email;
