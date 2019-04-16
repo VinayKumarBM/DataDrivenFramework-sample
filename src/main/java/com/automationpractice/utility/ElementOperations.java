@@ -9,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -27,7 +28,7 @@ public class ElementOperations {
 	public void highlightElement(WebElement element) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].style.border='4px solid yellow'", element);
-		pause(2);
+		pause(1);
 		js.executeScript("arguments[0].style.border=''", element);
 	}
 	
@@ -73,12 +74,17 @@ public class ElementOperations {
 		return valueList;
 	}
 	
+	public void waitForvisibilityOfElement(WebElement element){
+		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+	
 	public void waitForElementToBeClickable(WebElement element){
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
 	
-	public void waitForElementToBeClickable(int numberOfWindow){
+	public void waitForWindowsToOpen(int numberOfWindow){
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 		wait.until(ExpectedConditions.numberOfWindowsToBe(numberOfWindow));
 	}
@@ -205,6 +211,15 @@ public class ElementOperations {
 			driver.switchTo().alert();
 			return true;
 		}catch (NoAlertPresentException exp){
+			return false;
+		}
+	}
+	
+	public boolean isVisible(WebElement element) {
+		try{
+			waitForvisibilityOfElement(element);
+			return element.isDisplayed();
+		}catch (NoSuchElementException exp){
 			return false;
 		}
 	}

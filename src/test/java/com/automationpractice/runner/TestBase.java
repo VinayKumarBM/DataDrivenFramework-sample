@@ -8,11 +8,13 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import com.automationpractice.listener.WebDriverListener;
 import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.GlobalVariable;
 import com.automationpractice.utility.Log;
@@ -22,8 +24,10 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 
 public class TestBase {
 	private Logger log = Logger.getLogger(TestBase.class.getName());
-	public WebDriver driver;
-	public String testCaseName; 
+	protected WebDriver driver;
+	protected String testCaseName;
+	private EventFiringWebDriver eventHandler;
+	private WebDriverListener listener;
 	
 	@BeforeSuite
 	public void configuringLog4j() {
@@ -46,6 +50,7 @@ public class TestBase {
 				Log.error("Error occured while attaching screenshot: "+e.getMessage());
 			}
 		}
+		eventHandler.unregister(listener);
 		closeBrowser(driver);
 	}
 	
@@ -56,6 +61,10 @@ public class TestBase {
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("disable-infobars");
 		driver = new ChromeDriver(option);
+		eventHandler = new EventFiringWebDriver(driver);
+		listener = new WebDriverListener();
+		eventHandler.register(listener);
+		driver = eventHandler;
 		driver.get(url);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Long.parseLong(ConfigReader.getProperty("implicitlyWaitTime")),TimeUnit.SECONDS);
