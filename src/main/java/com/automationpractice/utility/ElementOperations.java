@@ -12,6 +12,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -222,5 +223,19 @@ public class ElementOperations {
 		}catch (NoSuchElementException exp){
 			return false;
 		}
+	}
+	
+	public void selectCheckbox(boolean clickOnCheckbox, WebElement element) {
+		if(clickOnCheckbox && !element.isSelected()) {
+			element.click();
+		}
+		else if(!clickOnCheckbox && element.isSelected()) {
+			element.click();
+		}
+	}
+	
+	public void doubleClick(WebElement element) {
+		Actions action = new Actions(driver);
+		action.moveToElement(element).doubleClick().build().perform();
 	}
 }
