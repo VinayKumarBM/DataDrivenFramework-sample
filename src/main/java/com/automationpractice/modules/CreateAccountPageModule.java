@@ -7,13 +7,16 @@ import org.openqa.selenium.WebDriver;
 import com.automationpractice.pageobjects.CreateAccountPageObject;
 import com.automationpractice.utility.ConfigReader;
 
+import io.qameta.allure.Step;
+
 public class CreateAccountPageModule {
 	private CreateAccountPageObject createAccountPageObject; 
 	
 	public CreateAccountPageModule(WebDriver driver) {
 		createAccountPageObject = new CreateAccountPageObject(driver);
 	}
-
+	
+	@Step ("Entering the Account details")
 	public void createAccount(Map <String, String> testDataMap) {
 		createAccountPageObject.enterFirstName(testDataMap.get(ConfigReader.getProperty("firstNameColumn")));
 		createAccountPageObject.enterLastName(testDataMap.get(ConfigReader.getProperty("lastNameColumn")));

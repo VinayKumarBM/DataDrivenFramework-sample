@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,28 +24,32 @@ import com.automationpractice.utility.ReportManager;
 import com.automationpractice.utility.ScreenshotUtility;
 import com.aventstack.extentreports.MediaEntityBuilder;
 
+import io.qameta.allure.Attachment;
+
 public class TestBase {
 	private Logger log = Logger.getLogger(TestBase.class.getName());
 	protected WebDriver driver;
 	protected String testCaseName;
 	private EventFiringWebDriver eventHandler;
 	private WebDriverListener listener;
-	
+
 	@BeforeSuite
 	public void configuringLog4j() {
 		DOMConfigurator.configure("log4j.xml");
 	}
-	
+
 	@BeforeMethod
 	public void browserSetup() {
 		driver = launchBrowser(driver, ConfigReader.getProperty("appUrl"));
 	}
-	
+
 	@AfterMethod
 	public void browserTeardown(ITestResult result) {
 		if(result.getStatus() == ITestResult.FAILURE) {
-			String imageFilePath = ScreenshotUtility.takeFullScreenShot(driver, testCaseName+"_Failed");
 			try {
+				saveTextLog(result.getMethod().getConstructorOrMethod().getName()+" Failed, Please find the attached screenshot");
+				saveScreenshot(driver);	
+				String imageFilePath = ScreenshotUtility.takeFullScreenShot(driver, testCaseName+"_Failed");
 				ReportManager.getTest().error("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(imageFilePath).build());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -53,7 +59,7 @@ public class TestBase {
 		eventHandler.unregister(listener);
 		closeBrowser(driver);
 	}
-	
+
 	public WebDriver launchBrowser(WebDriver driver, String url){
 		log.info("Launching Browser.");
 		String chromePath = GlobalVariable.basePath + ConfigReader.getProperty("chromeDriverPath");
@@ -75,4 +81,23 @@ public class TestBase {
 		log.info("Closing Browser.");
 		driver.quit();
 	}
+
+	// Image attachments for Allure
+	@Attachment(value = "Page screenshot", type = "image/png")
+	public byte[] saveScreenshot(WebDriver driver) {
+		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+	}
+
+	// Text attachments for Allure
+	@Attachment(value = "{0}", type = "text/plain")
+	public static String saveTextLog(String message) {
+		return message;
+	}
+
+	// HTML attachments for Allure
+	@Attachment(value = "{0}", type = "text/html")
+	public static String attachHtml(String html) {
+		return html;
+	}
+
 }

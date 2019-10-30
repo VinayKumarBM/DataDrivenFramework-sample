@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 
 import com.automationpractice.pageobjects.OrderPageObject;
 
+import io.qameta.allure.Step;
+
 public class OrderPageModule {
 	
 	private OrderPageObject orderPageObject;
@@ -12,6 +14,7 @@ public class OrderPageModule {
 		orderPageObject = new OrderPageObject(driver);
 	}
 
+	@Step ("Placing the order")
 	public String confirmOrder() {
 		orderPageObject.clickSummaryProceedToCheckout();
 		orderPageObject.clickAddressProceedToCheckout();
