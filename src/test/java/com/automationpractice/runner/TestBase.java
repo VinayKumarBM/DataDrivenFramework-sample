@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeSuite;
 
 import com.automationpractice.listener.WebDriverListener;
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.DriverManager;
 import com.automationpractice.utility.GlobalVariable;
 import com.automationpractice.utility.Log;
 import com.automationpractice.utility.ReportManager;
@@ -28,8 +29,6 @@ import io.qameta.allure.Attachment;
 
 public class TestBase {
 	private Logger log = Logger.getLogger(TestBase.class.getName());
-	protected WebDriver driver;
-	protected String testCaseName;
 	private EventFiringWebDriver eventHandler;
 	private WebDriverListener listener;
 
@@ -40,14 +39,16 @@ public class TestBase {
 
 	@BeforeMethod
 	public void browserSetup() {
-		driver = launchBrowser(driver, ConfigReader.getProperty("appUrl"));
+		launchBrowser(ConfigReader.getProperty("appUrl"));
 	}
 
 	@AfterMethod
 	public void browserTeardown(ITestResult result) {
+		WebDriver driver = DriverManager.getDriver();
+		String testCaseName = result.getMethod().getConstructorOrMethod().getName();
 		if(result.getStatus() == ITestResult.FAILURE) {
 			try {
-				saveTextLog(result.getMethod().getConstructorOrMethod().getName()+" Failed, Please find the attached screenshot");
+				saveTextLog(testCaseName+" Failed, Please find the attached screenshot");
 				saveScreenshot(driver);	
 				String imageFilePath = ScreenshotUtility.takeFullScreenShot(driver, testCaseName+"_Failed");
 				ReportManager.getTest().error("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(imageFilePath).build());
@@ -60,17 +61,18 @@ public class TestBase {
 		closeBrowser(driver);
 	}
 
-	public WebDriver launchBrowser(WebDriver driver, String url){
+	public WebDriver launchBrowser(String url){
 		log.info("Launching Browser.");
 		String chromePath = GlobalVariable.basePath + ConfigReader.getProperty("chromeDriverPath");
 		System.setProperty("webdriver.chrome.driver", chromePath);
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("disable-infobars");
-		driver = new ChromeDriver(option);
+		WebDriver driver = new ChromeDriver(option);
 		eventHandler = new EventFiringWebDriver(driver);
 		listener = new WebDriverListener();
 		eventHandler.register(listener);
 		driver = eventHandler;
+		DriverManager.setDriver(driver);
 		driver.get(url);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Long.parseLong(ConfigReader.getProperty("implicitlyWaitTime")),TimeUnit.SECONDS);
@@ -81,7 +83,7 @@ public class TestBase {
 		log.info("Closing Browser.");
 		driver.quit();
 	}
-
+	
 	// Image attachments for Allure
 	@Attachment(value = "Page screenshot", type = "image/png")
 	public byte[] saveScreenshot(WebDriver driver) {

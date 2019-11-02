@@ -7,6 +7,7 @@ import com.automationpractice.listener.Listener;
 import com.automationpractice.scripts.CreateAccountScript;
 import com.automationpractice.scripts.LoginScript;
 import com.automationpractice.scripts.ProductCheckoutScript;
+import com.automationpractice.utility.DriverManager;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -25,8 +26,8 @@ public class TestRunner extends TestBase{
 	@Description ("Test to verify the creation of new account")
 	@Story ("Create Account")
 	public void TC001_CreateNewAccount() {
-		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		CreateAccountScript createAccountScript = new CreateAccountScript(driver);
+		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		CreateAccountScript createAccountScript = new CreateAccountScript(DriverManager.getDriver());
 		createAccountScript.createAnAccount(testCaseName);
 	}
 
@@ -35,8 +36,8 @@ public class TestRunner extends TestBase{
 	@Description ("Test to verify the purchase the Printed Summary Dress")
 	@Story ("Purchase Dress")
 	public void TC002_PurchasePrintedSummaryDress() {
-		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(driver);
+		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getDriver());
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
@@ -45,8 +46,8 @@ public class TestRunner extends TestBase{
 	@Description ("Test to verify the purchase the Printed Chiffon Dress")
 	@Story ("Purchase Dress")
 	public void TC003_PurchasePrintedChiffonDress() {
-		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(driver);
+		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getDriver());
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
@@ -55,8 +56,8 @@ public class TestRunner extends TestBase{
 	@Description ("Test to verify the login functionality with invalid credentials")
 	@Story ("Login to Application")
 	public void TC004_InvalidLogin() {
-		testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		LoginScript loginScript = new LoginScript(driver);
+		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		LoginScript loginScript = new LoginScript(DriverManager.getDriver());
 		loginScript.loginTest(testCaseName);
 	}
 }
