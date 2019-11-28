@@ -27,7 +27,7 @@ public class TestRunner extends TestBase{
 	@Story ("Create Account")
 	public void TC001_CreateNewAccount() {
 		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		CreateAccountScript createAccountScript = new CreateAccountScript(DriverManager.getDriver());
+		CreateAccountScript createAccountScript = new CreateAccountScript(DriverManager.getInstance().getDriver());
 		createAccountScript.createAnAccount(testCaseName);
 	}
 
@@ -37,7 +37,7 @@ public class TestRunner extends TestBase{
 	@Story ("Purchase Dress")
 	public void TC002_PurchasePrintedSummaryDress() {
 		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getDriver());
+		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getInstance().getDriver());
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
@@ -47,7 +47,7 @@ public class TestRunner extends TestBase{
 	@Story ("Purchase Dress")
 	public void TC003_PurchasePrintedChiffonDress() {
 		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getDriver());
+		ProductCheckoutScript productCheckoutScript = new ProductCheckoutScript(DriverManager.getInstance().getDriver());
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
@@ -57,7 +57,7 @@ public class TestRunner extends TestBase{
 	@Story ("Login to Application")
 	public void TC004_InvalidLogin() {
 		String testCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		LoginScript loginScript = new LoginScript(DriverManager.getDriver());
+		LoginScript loginScript = new LoginScript(DriverManager.getInstance().getDriver());
 		loginScript.loginTest(testCaseName);
 	}
 }

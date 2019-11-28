@@ -44,7 +44,7 @@ public class TestBase {
 
 	@AfterMethod
 	public void browserTeardown(ITestResult result) {
-		WebDriver driver = DriverManager.getDriver();
+		WebDriver driver = DriverManager.getInstance().getDriver();
 		String testCaseName = result.getMethod().getConstructorOrMethod().getName();
 		if(result.getStatus() == ITestResult.FAILURE) {
 			try {
@@ -66,13 +66,13 @@ public class TestBase {
 		String chromePath = GlobalVariable.basePath + ConfigReader.getProperty("chromeDriverPath");
 		System.setProperty("webdriver.chrome.driver", chromePath);
 		ChromeOptions option = new ChromeOptions();
-		option.addArguments("disable-infobars");
+		option.addArguments("--disable-infobars;");
 		WebDriver driver = new ChromeDriver(option);
 		eventHandler = new EventFiringWebDriver(driver);
 		listener = new WebDriverListener();
 		eventHandler.register(listener);
 		driver = eventHandler;
-		DriverManager.setDriver(driver);
+		DriverManager.getInstance().setDriver(driver);
 		driver.get(url);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Long.parseLong(ConfigReader.getProperty("implicitlyWaitTime")),TimeUnit.SECONDS);
