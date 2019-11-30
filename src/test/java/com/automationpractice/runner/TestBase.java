@@ -1,15 +1,19 @@
 package com.automationpractice.runner;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -31,6 +35,9 @@ public class TestBase {
 	private Logger log = Logger.getLogger(TestBase.class.getName());
 	private EventFiringWebDriver eventHandler;
 	private WebDriverListener listener;
+	public static final String USERNAME = "bmvinay1";
+	public static final String ACCESS_KEY = "5ef5fa54-5153-409b-a71a-d6fc761136ea";
+	public static final String sauceURL = "http://@ondemand.saucelabs.com:80/wd/hub";
 
 	@BeforeSuite
 	public void configuringLog4j() {
@@ -38,7 +45,7 @@ public class TestBase {
 	}
 
 	@BeforeMethod
-	public void browserSetup() {
+	public void browserSetup() throws MalformedURLException {
 		launchBrowser(ConfigReader.getProperty("appUrl"));
 	}
 
@@ -58,16 +65,27 @@ public class TestBase {
 			}
 		}
 		eventHandler.unregister(listener);
-		closeBrowser(driver);
+		closeBrowser(driver, result);
 	}
 
-	public WebDriver launchBrowser(String url){
+	public WebDriver launchBrowser(String url) throws MalformedURLException{
 		log.info("Launching Browser.");
 		String chromePath = GlobalVariable.basePath + ConfigReader.getProperty("chromeDriverPath");
 		System.setProperty("webdriver.chrome.driver", chromePath);
-		ChromeOptions option = new ChromeOptions();
-		option.addArguments("--disable-infobars;");
-		WebDriver driver = new ChromeDriver(option);
+		
+		MutableCapabilities sauceOptions = new MutableCapabilities();
+		sauceOptions.setCapability("username", USERNAME);
+		sauceOptions.setCapability("accessKey", ACCESS_KEY);
+		sauceOptions.setCapability("name", "Data Driven tests");
+		
+		ChromeOptions browserOptions = new ChromeOptions();
+		browserOptions.addArguments("--disable-infobars;");
+		browserOptions.setExperimentalOption("w3c", true);
+		browserOptions.setCapability("platformName", "Windows 10");
+		browserOptions.setCapability("browserVersion", "78.0");
+		browserOptions.setCapability("sauce:options", sauceOptions);
+
+		WebDriver driver = new RemoteWebDriver(new URL(sauceURL), browserOptions);//new ChromeDriver(option);
 		eventHandler = new EventFiringWebDriver(driver);
 		listener = new WebDriverListener();
 		eventHandler.register(listener);
@@ -79,8 +97,9 @@ public class TestBase {
 		return driver;
 	}
 
-	public void closeBrowser(WebDriver driver){
+	public void closeBrowser(WebDriver driver, ITestResult result){
 		log.info("Closing Browser.");
+		((JavascriptExecutor) driver).executeScript("sauce:job-result=" +(result.isSuccess()? "Passed":"Failed"));
 		driver.quit();
 	}
 	
