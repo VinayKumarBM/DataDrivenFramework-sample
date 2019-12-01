@@ -31,7 +31,7 @@ public class Listener implements ITestListener{
 		String testCaseName = result.getName();
 		String status = testCaseName+ConfigReader.getProperty("testCaseFail");	
 		Log.error(status);
-		Log.endTestCase(testCaseName);	
+		Log.endTestCase(testCaseName);
 		ReportManager.getTest().log(Status.FAIL, status+"\n"+result.getThrowable());
 	}
 

@@ -80,6 +80,7 @@ public class CreateAccountPageObject {
 	}
 	
 	public void enterZipCode(String zipCode) {
+		this.zipCode.click();
 		this.zipCode.sendKeys(zipCode);
 	}
 	

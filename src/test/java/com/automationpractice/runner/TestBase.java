@@ -98,8 +98,8 @@ public class TestBase {
 	}
 
 	public void closeBrowser(WebDriver driver, ITestResult result){
-		log.info("Closing Browser.");
-		((JavascriptExecutor) driver).executeScript("sauce:job-result=" +(result.isSuccess()? "Passed":"Failed"));
+		log.info("Closing Browser. Test Status: "+result.isSuccess());
+		((JavascriptExecutor) driver).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
 		driver.quit();
 	}
 	
