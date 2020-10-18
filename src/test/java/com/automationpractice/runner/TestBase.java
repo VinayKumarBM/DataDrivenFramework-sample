@@ -19,12 +19,12 @@ import org.testng.annotations.BeforeSuite;
 import com.automationpractice.listener.WebDriverListener;
 import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.DriverManager;
-import com.automationpractice.utility.GlobalVariable;
 import com.automationpractice.utility.Log;
 import com.automationpractice.utility.ReportManager;
 import com.automationpractice.utility.ScreenshotUtility;
 import com.aventstack.extentreports.MediaEntityBuilder;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Attachment;
 
 public class TestBase {
@@ -63,8 +63,7 @@ public class TestBase {
 
 	public WebDriver launchBrowser(String url){
 		log.info("Launching Browser.");
-		String chromePath = GlobalVariable.basePath + ConfigReader.getProperty("chromeDriverPath");
-		System.setProperty("webdriver.chrome.driver", chromePath);
+		WebDriverManager.chromedriver().arch32().setup();
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("--disable-infobars;");
 		WebDriver driver = new ChromeDriver(option);
