@@ -6,7 +6,7 @@ Data Driven framework is focused on separating the test scripts logic and the te
 
 For Demo purpose all the test cases are created for [automationpractice.com](http://automationpractice.com/index.php) site.
 
-###**Some of the key features of this framework:**
+### **Some of the key features of this framework:**
 
 1. It generates Extent & Allure reports with all the step details.
 2. It support parallel execution of test cases.
