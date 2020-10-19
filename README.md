@@ -38,8 +38,8 @@ Once the execution completes report will be generated in below folder structure.
 
 Run below command in project directory to generate report in aullure-report folder.	
 
-        allure generate allure-results -c -o allure-report
+    allure generate allure-results -c -o allure-report
 
-Once above command is completed, run below command open the allure report.
+Once above command is completed, run below command to open the generated allure report.
 
     allure open allure-report
