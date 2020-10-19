@@ -33,6 +33,7 @@ Run the below Maven command.
 Once the execution completes report will be generated in below folder structure.
 
 **Extent Report:** 	*/test-output/report/test-report.html*
+
 **Allure Report:** To generate the report we need to go through below steps.
 
 Run below command in project directory to generate report in aullure-report folder.	
