@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public class DriverManager {
 
-	private static final DriverManager DRIVER_MANAGER = new DriverManager();
+	private static DriverManager driverManager;
 	private static ThreadLocal<WebDriver> tDriver = new ThreadLocal<>();
 
 	private DriverManager() {
@@ -12,7 +12,12 @@ public class DriverManager {
 	}
 	
 	public static DriverManager getInstance(){
-		return DRIVER_MANAGER;
+		if(driverManager == null) {
+			synchronized (DriverManager.class) {
+				driverManager = new DriverManager();
+			}
+		}
+		return driverManager;
 	}
 	
 	public synchronized void setDriver (WebDriver driver) {
