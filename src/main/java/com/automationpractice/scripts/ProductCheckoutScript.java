@@ -40,7 +40,7 @@ public class ProductCheckoutScript {
 	public void checkOutProduct(String testCaseName) {
 		ExtentTest test = ReportManager.getTest();
 		try {
-			Map<String, String> testDataMap = ExcelUtility.getData(testCaseName, excelSheetPath, 
+			Map<String, String> testDataMap = new ExcelUtility().getData(testCaseName, excelSheetPath, 
 					ConfigReader.getProperty("testDataSheetName"));
 
 			homePageModule.navigateToLoginPage();

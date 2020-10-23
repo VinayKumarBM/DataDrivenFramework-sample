@@ -12,13 +12,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtility {
-	private static XSSFSheet excelSheet;
-	private static XSSFWorkbook excelWorkbook;
-	private static XSSFCell cell;
-	private static XSSFRow row;
-	private static Logger log = Logger.getLogger(ExcelUtility.class.getName());
+	private XSSFSheet excelSheet;
+	private XSSFWorkbook excelWorkbook;
+	private XSSFCell cell;
+	private XSSFRow row;
+	private Logger log = Logger.getLogger(ExcelUtility.class.getName());
 
-	public static void setExcelFile(String sheetPath,String sheetName) throws Exception {
+	public void setExcelFile(String sheetPath,String sheetName) throws Exception {
 		try{
 			//log.info("Getting sheets from the workbook.");
 			FileInputStream excelFile = new FileInputStream(sheetPath);
@@ -30,12 +30,12 @@ public class ExcelUtility {
 		}
 	}
 
-	private static int getTestCaseRow(String testCaseName, int testCaseColumn) throws Exception{
+	private int getTestCaseRow(String testCaseName, int testCaseColumn) throws Exception{
 		int row;
 		try{
 			int rowCount = excelSheet.getLastRowNum();
 			for(row=0; row< rowCount; row++){
-				if(ExcelUtility.getCellData(row, testCaseColumn).equalsIgnoreCase(testCaseName)){
+				if(getCellData(row, testCaseColumn).equalsIgnoreCase(testCaseName)){
 					break;
 				}
 			}
@@ -48,7 +48,7 @@ public class ExcelUtility {
 		return row;
 	}
 
-	public static String getCellData(int rowNumb, int colNumb) throws Exception{
+	public String getCellData(int rowNumb, int colNumb) throws Exception{
 		try{
 			cell = excelSheet.getRow(rowNumb).getCell(colNumb);
 			//log.info("Getting cell data.");
@@ -63,7 +63,7 @@ public class ExcelUtility {
 		}
 	}
 
-	public static void setCellData(String result, int rowNumb, int colNumb, String excelFilePath) throws Exception{
+	public void setCellData(String result, int rowNumb, int colNumb, String excelFilePath) throws Exception{
 		try{
 			row = excelSheet.getRow(rowNumb);
 			cell = row.getCell(colNumb);
@@ -88,7 +88,7 @@ public class ExcelUtility {
 		}
 	}
 
-	public static Map getData(String testCaseName, String sheetPath,String sheetName) {
+	public Map getData(String testCaseName, String sheetPath,String sheetName) {
 		Map dataMap = new HashMap<String, String>();
 		try {
 			setExcelFile(sheetPath, sheetName);
@@ -110,15 +110,5 @@ public class ExcelUtility {
 			e.printStackTrace();
 		}
 		return dataMap;
-	}
-
-	public static void main(String []args) {
-		Map<String,String> dataMap = new HashMap<String, String>();
-		String excelSheetPath = GlobalVariable.basePath+ConfigReader.getProperty("testDataPath")
-		+ConfigReader.getProperty("excelSheetName");
-		dataMap = getData("TC002_PurchaseDress", excelSheetPath,ConfigReader.getProperty("testDataSheetName"));
-		for(Map.Entry<String, String> data: dataMap.entrySet()) {
-			System.out.println(data.getKey()+ " ==> " + data.getValue());
-		}
 	}
 }

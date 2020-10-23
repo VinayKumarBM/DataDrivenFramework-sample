@@ -1,1 +1,1 @@
-mvn clean verify & allure generate allure-results -c -o allure-report && allure open allure-report
+mvn clean test & allure generate allure-results -c -o allure-report && allure open allure-report

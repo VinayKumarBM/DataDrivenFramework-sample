@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import com.automationpractice.listener.WebDriverListener;
+import com.automationpractice.utility.AllureConfigurator;
 import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.DriverManager;
 import com.automationpractice.utility.Log;
@@ -29,12 +30,11 @@ import io.qameta.allure.Attachment;
 
 public class TestBase {
 	private Logger log = Logger.getLogger(TestBase.class.getName());
-	private EventFiringWebDriver eventHandler;
-	private WebDriverListener listener;
 
 	@BeforeSuite
-	public void configuringLog4j() {
+	public void configuringLog4j() throws IOException {
 		DOMConfigurator.configure("log4j.xml");
+		AllureConfigurator.configure();
 	}
 
 	@BeforeMethod
@@ -57,7 +57,7 @@ public class TestBase {
 				Log.error("Error occured while attaching screenshot: "+e.getMessage());
 			}
 		}
-		eventHandler.unregister(listener);
+		DriverManager.getInstance().getEventFiringWebDriver().unregister(DriverManager.getInstance().getWebDriverListener());
 		closeBrowser(driver);
 	}
 
@@ -67,10 +67,12 @@ public class TestBase {
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("--disable-infobars;");
 		WebDriver driver = new ChromeDriver(option);
-		eventHandler = new EventFiringWebDriver(driver);
-		listener = new WebDriverListener();
+		EventFiringWebDriver eventHandler = new EventFiringWebDriver(driver);
+		WebDriverListener listener = new WebDriverListener();
 		eventHandler.register(listener);
 		driver = eventHandler;
+		DriverManager.getInstance().setWebDriverListener(listener);
+		DriverManager.getInstance().setEventFiringWebDriver(eventHandler);
 		DriverManager.getInstance().setDriver(driver);
 		driver.get(url);
 		driver.manage().window().maximize();
