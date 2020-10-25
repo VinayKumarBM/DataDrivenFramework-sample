@@ -21,14 +21,14 @@ For Demo purpose all the test cases are created for [automationpractice.com](htt
 - [Java](https://www.guru99.com/install-java.html) should be installed and configured.
 - [Maven](https://mkyong.com/maven/how-to-install-maven-in-windows/) should be installed and configured.
 - Download the files from Git repository either as zip file OR using [Git](https://phoenixnap.com/kb/how-to-install-git-windows).
-- Downloading and installing [Allure](https://github.com/allure-framework/allure-docs/blob/master/docs/getstarted.adoc) commandline application suitable for your environment.
+- Download and install [Allure](https://github.com/allure-framework/allure-docs/blob/master/docs/getstarted.adoc) commandline application, suitable for your environment.
 
 ## **Running Test:**
 
 Open the command prompt and navigate to the folder in which pom.xml file is present.
 Run the below Maven command.
 
-    mvn verify
+    mvn clean test
 
 Once the execution completes report will be generated in below folder structure.
 
@@ -36,10 +36,10 @@ Once the execution completes report will be generated in below folder structure.
 
 **Allure Report:** To generate the report we need to go through below steps.
 
-Run below command in project directory to generate report in aullure-report folder.	
+To generate the report from existing Allure results use below command.
 
     allure generate allure-results -c -o allure-report
 
-Once above command is completed, run below command to open the generated allure report.
+After the report is generated, open it in default system browser using below command.
 
     allure open allure-report
