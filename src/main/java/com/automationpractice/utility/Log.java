@@ -17,10 +17,10 @@ public class Log {
 	}
 
 	//This is to print log for the ending of the test case
-	public static void endTestCase(String testCaseName){
+	public static void endTestCase(String testCaseName, String status){
 		log.info("*****************************************************************************************");
 		log.info("");
-		log.info("\t\t\t--{  "+testCaseName.toUpperCase()+" - ENDS  }--");
+		log.info("\t\t\t--{  "+testCaseName.toUpperCase()+" - "+status+"  }--");
 		log.info("");
 		log.info("*****************************************************************************************");
 	}

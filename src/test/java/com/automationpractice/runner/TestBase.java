@@ -65,7 +65,8 @@ public class TestBase {
 		log.info("Launching Browser.");
 		WebDriverManager.chromedriver().arch32().setup();
 		ChromeOptions option = new ChromeOptions();
-		option.addArguments("--disable-infobars;");
+		option.addArguments("--disable-infobars");
+		option.addArguments("--incognito");
 		WebDriver driver = new ChromeDriver(option);
 		EventFiringWebDriver eventHandler = new EventFiringWebDriver(driver);
 		WebDriverListener listener = new WebDriverListener();

@@ -31,7 +31,7 @@ public class Listener implements ITestListener{
 		String testCaseName = result.getName();
 		String status = testCaseName+ConfigReader.getProperty("testCaseFail");	
 		Log.error(status);
-		Log.endTestCase(testCaseName);	
+		Log.endTestCase(testCaseName, "FAILED");	
 		ReportManager.getTest().log(Status.FAIL, status+"\n"+result.getThrowable());
 	}
 
@@ -53,8 +53,7 @@ public class Listener implements ITestListener{
 	public void onTestSuccess(ITestResult result) {
 		String testCaseName = result.getName();
 		String status = testCaseName+ConfigReader.getProperty("testCasePass");
-		Log.info(status);
-		Log.endTestCase(testCaseName);
+		Log.endTestCase(testCaseName, "PASSED");
 		ReportManager.getTest().log(Status.PASS, status);
 	}
 }
