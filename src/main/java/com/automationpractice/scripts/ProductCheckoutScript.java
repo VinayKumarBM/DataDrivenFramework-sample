@@ -2,7 +2,6 @@ package com.automationpractice.scripts;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -13,13 +12,13 @@ import com.automationpractice.modules.OrderPageModule;
 import com.automationpractice.modules.SearchPageModule;
 import com.automationpractice.utility.ConfigReader;
 import com.automationpractice.utility.ExcelUtility;
+import com.automationpractice.utility.Log;
 import com.automationpractice.utility.ReportManager;
 import com.automationpractice.utility.ResourceUtility;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 public class ProductCheckoutScript {
-	private Logger log = Logger.getLogger(ProductCheckoutScript.class.getName());
 	private WebDriver driver;
 	private HomePageModule homePageModule;
 	private LoginPageModule loginPageModule;
@@ -58,7 +57,7 @@ public class ProductCheckoutScript {
 			myAccountPageModule.logOutOfApplication();
 			test.log(Status.INFO, "Logged out of Application");
 		} catch(Exception exp) {
-			log.error(exp.getMessage(), exp);
+			Log.error(exp.getMessage(), exp);
 			test.error("Exception Occured: "+Thread.currentThread().getStackTrace());
 			Assert.fail(testCaseName);
 		}

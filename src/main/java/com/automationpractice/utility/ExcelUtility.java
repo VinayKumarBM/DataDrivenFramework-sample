@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,16 +15,15 @@ public class ExcelUtility {
 	private XSSFWorkbook excelWorkbook;
 	private XSSFCell cell;
 	private XSSFRow row;
-	private Logger log = Logger.getLogger(ExcelUtility.class.getName());
 
 	public void setExcelFile(String sheetPath,String sheetName) throws Exception {
 		try{
-			//log.info("Getting sheets from the workbook.");
+			//Log.info("Getting sheets from the workbook.");
 			FileInputStream excelFile = new FileInputStream(sheetPath);
 			excelWorkbook = new XSSFWorkbook(excelFile);
 			excelSheet = excelWorkbook.getSheet(sheetName);
 		}		catch(Exception exp){
-			log.error("Exception occured in setExcelFile: "+exp.getMessage());
+			Log.error("Exception occured in setExcelFile: "+exp.getMessage());
 			throw(exp);
 		}
 	}
@@ -41,7 +39,7 @@ public class ExcelUtility {
 			}
 		}
 		catch(Exception exp){
-			log.error("Exception occured in getTestCaseRow: "+exp.getMessage());
+			Log.error("Exception occured in getTestCaseRow: "+exp.getMessage());
 			throw(exp);
 		}
 
@@ -51,7 +49,7 @@ public class ExcelUtility {
 	public String getCellData(int rowNumb, int colNumb) throws Exception{
 		try{
 			cell = excelSheet.getRow(rowNumb).getCell(colNumb);
-			//log.info("Getting cell data.");
+			//Log.info("Getting cell data.");
 			if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 				cell.setCellType(XSSFCell.CELL_TYPE_STRING);
 			}
@@ -67,7 +65,7 @@ public class ExcelUtility {
 		try{
 			row = excelSheet.getRow(rowNumb);
 			cell = row.getCell(colNumb);
-			log.info("Setting results into the excel sheet.");
+			Log.info("Setting results into the excel sheet.");
 			if(cell==null){
 				cell = row.createCell(colNumb);
 				cell.setCellValue(result);
@@ -76,14 +74,14 @@ public class ExcelUtility {
 				cell.setCellValue(result);
 			}
 
-			log.info("Creating file output stream.");
+			Log.info("Creating file output stream.");
 			FileOutputStream fileOut = new FileOutputStream(excelFilePath);
 			excelWorkbook.write(fileOut);
 			fileOut.flush();
 			fileOut.close();
 
 		}catch(Exception exp){
-			log.error("Exception occured in setCellData: "+exp.getMessage());
+			Log.error("Exception occured in setCellData: "+exp.getMessage());
 			throw (exp);
 		}
 	}

@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +15,6 @@ import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 public class ScreenshotUtility {
-	private static Logger log = Logger.getLogger(ScreenshotUtility.class.getName());
 	
 	public static String takeScreenShot(WebDriver driver,String testCaseName){
 		// Take screenshot and store as a file format
@@ -27,7 +25,7 @@ public class ScreenshotUtility {
 			FileUtils.copyFile(src, new File(screenShotFilePath));
 		}
 		catch(Exception exp){
-			log.error("Exception occured in takeScreenShot: "+exp.getMessage());
+			Log.error("Exception occured in takeScreenShot: "+exp.getMessage());
 		}
 		return screenShotFilePath;
 	}
@@ -40,7 +38,7 @@ public class ScreenshotUtility {
 		try {
 			ImageIO.write(screenshot.getImage(),"PNG",new File(screenShotFilePath));
 		} catch (IOException exp) {
-			log.error("Exception occured in takeScreenShot: "+exp.getMessage());
+			Log.error("Exception occured in takeScreenShot: "+exp.getMessage());
 		}
 		return screenShotFilePath;
 	}

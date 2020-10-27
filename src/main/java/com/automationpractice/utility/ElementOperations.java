@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -18,7 +17,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ElementOperations {
-	private Logger log = Logger.getLogger(ElementOperations.class.getName());
 	private Long waitTime = Long.parseLong(ConfigReader.getProperty("webDriverWaitTime"));
 	private WebDriver driver = null;
 	
@@ -49,7 +47,7 @@ public class ElementOperations {
 	
 	public String getSelectedValue(WebElement element) {
 		String value = new Select(element).getFirstSelectedOption().getText();
-		log.info("Selected Value : "+ value);
+		Log.info("Selected Value : "+ value);
 		return value;
 	}
 	
@@ -93,32 +91,32 @@ public class ElementOperations {
 	public boolean isElementPresent(By byElement) {
 		try{
 			driver.findElement(byElement);
-			log.info("Element is present");
+			Log.info("Element is present");
 			return true;
 		}catch(Exception exp){
-			log.info("Element is NOT present");
+			Log.info("Element is NOT present");
 			return false;
 		}
 	}
 
 	public void switchToFrame(WebElement element) {
 		driver.switchTo().frame(element);
-		log.info("Switched to new frame");
+		Log.info("Switched to new frame");
 	}
 	
 	public void switchToFrame(String nameOrId) {
 		driver.switchTo().frame(nameOrId);
-		log.info("Switched to new frame");
+		Log.info("Switched to new frame");
 	}
 	
 	public void switchToParentFrame() {
 		driver.switchTo().parentFrame();
-		log.info("Switched to Parent Frame");
+		Log.info("Switched to Parent Frame");
 	}
 	
 	public void switchToParentWindow() {
 		driver.switchTo().defaultContent();
-		log.info("Switched to Parent Window");
+		Log.info("Switched to Parent Window");
 	}
 	
 	public void switchToNewWindow() {
@@ -129,7 +127,7 @@ public class ElementOperations {
 			if (!mainWindow.equals(handle)) {
 				driver.switchTo().window(handle);
 				driver.manage().window().maximize();
-				log.info("Switched to New Window with Title: "+driver.getTitle());
+				Log.info("Switched to New Window with Title: "+driver.getTitle());
 			}
 		}
 	}
@@ -143,7 +141,7 @@ public class ElementOperations {
 			if (!mainWindow.equals(handle)) {
 				driver.switchTo().window(handle);
 				driver.close();
-				log.info("Closed Child Window: "+i);
+				Log.info("Closed Child Window: "+i);
 				i++;
 			}
 		}
@@ -185,10 +183,10 @@ public class ElementOperations {
 			waitForAlert();
 			Alert alert = driver.switchTo().alert();		
 			message = alert.getText();
-			log.info("Alert message: "+message);
+			Log.info("Alert message: "+message);
 			alert.accept();
 		}catch (Exception e) {
-			log.info("Alert was not present");
+			Log.info("Alert was not present");
 		}
 		return message;
 	}
@@ -199,10 +197,10 @@ public class ElementOperations {
 			waitForAlert();
 			Alert alert = driver.switchTo().alert();		
 			message = alert.getText();
-			log.info("Alert message: "+message);
+			Log.info("Alert message: "+message);
 			alert.dismiss();
 		}catch (Exception e) {
-			log.info("Alert was not present");
+			Log.info("Alert was not present");
 		}
 		return message;
 	}

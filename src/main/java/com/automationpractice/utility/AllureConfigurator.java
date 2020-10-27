@@ -10,12 +10,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.json.Json;
 
 public class AllureConfigurator {
 	
-	private static Logger LOG = Logger.getLogger(AllureConfigurator.class.getName());
 	private static File resultsDirectory = new File("allure-results");
 	private static File reportHistoryDirectory = new File("allure-report"+File.separator+"history");
 	private static File resultsHistoryDirectory = new File("allure-results"+File.separator+"history");
@@ -36,12 +34,12 @@ public class AllureConfigurator {
 
 		FileOutputStream outputStrem = new FileOutputStream(String.format(PATH, "environment.properties"));
 		props.store(outputStrem, "This is a properties file for Allure environment details");
-		LOG.info("Environment Properties file created");
+		System.out.println("Environment Properties file created");
 	}
 
 	private static void makeCopyOfHistory() throws IOException {
 		if(!resultsDirectory.exists()) {
-			LOG.info("Creating new Report Directory");
+			System.out.println("Creating new Report Directory");
 			resultsDirectory.mkdir();
 		}
 
@@ -49,7 +47,7 @@ public class AllureConfigurator {
 			resultsHistoryDirectory.mkdir();
 			FileUtils.copyDirectory(new File(reportHistoryDirectory.getAbsolutePath()), 
 					new File(resultsHistoryDirectory.getAbsolutePath()));
-			LOG.info("Copied history to results directory!");
+			System.out.println("Copied history to results directory!");
 		}
 	}
 
@@ -62,6 +60,6 @@ public class AllureConfigurator {
 		FileWriter file = new FileWriter(String.format(PATH, "executor.json")); 	  
 		file.write(new Json().toJson(executorMap));
 		file.flush();
-		LOG.info("Executor JSON file created");
+		System.out.println("Executor JSON file created");
 	}
 }

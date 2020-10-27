@@ -2,7 +2,6 @@ package com.automationpractice.pageobjects;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,9 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.Log;
 
 public class HomePageObject {
-	private static final Logger log = Logger.getLogger(HomePageObject.class);
 	
 	public HomePageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
@@ -56,12 +55,12 @@ public class HomePageObject {
 	}
 
 	public void selectCategory(String category, WebDriver driver) {
-		log.info("Selecting Category "+category);
+		Log.info("Selecting Category "+category);
 		driver.findElement(By.linkText(category.toUpperCase())).click();
 	}
 
 	public void selectSubCategory(String subCategory, WebDriver driver) {
-		log.info("Selecting Sub-Category "+subCategory);
+		Log.info("Selecting Sub-Category "+subCategory);
 		driver.findElement(By.linkText(subCategory.toUpperCase())).click();
 	}
 

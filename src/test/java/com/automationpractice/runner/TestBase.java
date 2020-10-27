@@ -3,8 +3,6 @@ package com.automationpractice.runner;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -29,11 +27,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Attachment;
 
 public class TestBase {
-	private Logger log = Logger.getLogger(TestBase.class.getName());
 
 	@BeforeSuite
 	public void configuringLog4j() throws IOException {
-		DOMConfigurator.configure("log4j.xml");
 		AllureConfigurator.configure();
 	}
 
@@ -62,7 +58,7 @@ public class TestBase {
 	}
 
 	public WebDriver launchBrowser(String url){
-		log.info("Launching Browser.");
+		System.out.println("Launching Browser.");
 		WebDriverManager.chromedriver().arch32().setup();
 		ChromeOptions option = new ChromeOptions();
 		option.addArguments("--disable-infobars");
@@ -82,7 +78,7 @@ public class TestBase {
 	}
 
 	public void closeBrowser(WebDriver driver){
-		log.info("Closing Browser.");
+		System.out.println("Closing Browser.");
 		driver.quit();
 	}
 	

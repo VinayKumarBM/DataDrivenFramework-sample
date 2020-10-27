@@ -2,7 +2,6 @@ package com.automationpractice.pageobjects;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,9 +11,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.Log;
 
 public class SearchPageObject {
-	private static final Logger log = Logger.getLogger(SearchPageObject.class.getName());
 	private WebDriver driver;
 	
 	public SearchPageObject(WebDriver driver) {
@@ -39,11 +38,11 @@ public class SearchPageObject {
 				action.moveToElement(productList.get(i)).perform();
 				WebElement element = driver.findElement(By.xpath(String.format(addToCartButtonXpath, product)));
 				action.moveToElement(element).click().build().perform();
-				log.info(product+" was found!");
+				Log.info(product+" was found!");
 				return true;
 			}
 		}
-		log.info(product+" was NOT found!!");
+		Log.info(product+" was NOT found!!");
 		return false;
 	}
 	

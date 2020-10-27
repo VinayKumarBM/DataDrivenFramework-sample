@@ -1,8 +1,5 @@
 package com.automationpractice.pageobjects;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,9 +7,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.Log;
 
 public class OrderPageObject {
-	private static final Logger log = Logger.getLogger(OrderPageObject.class.getName());
 	
 	public OrderPageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
@@ -41,32 +38,32 @@ public class OrderPageObject {
 	private WebElement orderConfirmMsg;
 	
 	public void clickSummaryProceedToCheckout() {
-		log.info("Clicking on Summary Proceed to checkout");
+		Log.info("Clicking on Summary Proceed to checkout");
 		proceedToCheckoutSummary.click();
 	}
 	
 	public void clickAddressProceedToCheckout() {
-		log.info("Clicking on Address Proceed to checkout");
+		Log.info("Clicking on Address Proceed to checkout");
 		proceedToCheckoutAddress.click();
 	}
 	
 	public void agreeToTerms() {
-		log.info("Agreeing to Terms of Service");
+		Log.info("Agreeing to Terms of Service");
 		agreeTerms.click();
 	}
 	
 	public void clickCarrierProceedToCheckout() {
-		log.info("Clicking on Carrier Proceed to checkout");
+		Log.info("Clicking on Carrier Proceed to checkout");
 		proceedToCheckoutCarrier.click();
 	}
 	
 	public void clickPayByCheque() {
-		log.info("Clicking on Pay By Cheque");
+		Log.info("Clicking on Pay By Cheque");
 		payByCheck.click();
 	}
 	
 	public void clickOnConfirmOrder() {
-		log.info("Clicking on I confirm Order");
+		Log.info("Clicking on I confirm Order");
 		confirmOrder.click();
 	}
 	

@@ -5,11 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.log4j.Logger;
-
 public class ResourceUtility {
-	
-	private static Logger log = Logger.getLogger(ResourceUtility.class.getName());
 	
 	public static String getScreenShotFolderPath() {
 		String screenShotFolderPath = GlobalVariable.basePath +ConfigReader.getProperty("screenShotFolderPath");
@@ -33,10 +29,10 @@ public class ResourceUtility {
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
-                log.info("Directory was created.\n"+folderPath);
+                System.out.println("Directory was created.\n"+folderPath);
                 return true;
             } catch (IOException exp) {
-                log.error(exp.getMessage(), exp);
+            	System.out.println(exp.getMessage()+"\n"+exp);
                 return false;
             }
         }

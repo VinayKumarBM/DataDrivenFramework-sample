@@ -1,6 +1,5 @@
 package com.automationpractice.pageobjects;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,9 +7,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 import com.automationpractice.utility.ConfigReader;
+import com.automationpractice.utility.Log;
 
 public class LoginPageObject {
-	private static final Logger log = Logger.getLogger(LoginPageObject.class.getName());
 	
 	public LoginPageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
@@ -33,7 +32,7 @@ public class LoginPageObject {
 	private WebElement login_Button;
 	
 	public void enterEmailToCreateAccount(String email) {
-		log.info("Entering from Login Page");
+		Log.info("Entering from Login Page");
 		createAccountEmail.sendKeys(email);
 	}
 	

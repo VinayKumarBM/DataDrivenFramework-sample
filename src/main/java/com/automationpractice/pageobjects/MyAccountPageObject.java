@@ -1,6 +1,5 @@
 package com.automationpractice.pageobjects;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import com.automationpractice.utility.ConfigReader;
 
 public class MyAccountPageObject {
-	private static final Logger log = Logger.getLogger(MyAccountPageObject.class.getName());
 	
 	public MyAccountPageObject(WebDriver driver) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, 
