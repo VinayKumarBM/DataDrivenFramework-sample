@@ -15,6 +15,7 @@ For Demo purpose all the test cases are created for [automationpractice.com](htt
 5. Easy integration to CI/CD pipeline.
 6. Framework uses Page Object Design Pattern, hence there is clean separation between test code and page specific code such as locators and layout.
 7. Framework has the capability to re-run the failed test cases.
+8. Video recording of test execution can be enabled in local test runs
 
 ## **Required Setup :**
 
@@ -28,8 +29,9 @@ For Demo purpose all the test cases are created for [automationpractice.com](htt
 Open the command prompt and navigate to the folder in which pom.xml file is present.
 Run the below Maven command.
 
-    mvn clean test
+    mvn clean test -Dvideo.enabled=false
 
+This will run 2 test cases in parallel (default thread count is 2) and video recording in disabled mode. 
 Once the execution completes report will be generated in below folder structure.
 
 **Extent Report:** 	*/test-output/report/test-report.html*
@@ -43,3 +45,13 @@ To generate the report from existing Allure results use below command.
 After the report is generated, open it in default system browser using below command.
 
     allure open allure-report
+
+**Video Recoding:**
+
+To execute the test cases with [video recording](http://automation-remarks.com/video-recorder-java/) feature run below command.
+
+    mvn clean test -Dvideo.enabled=true -Dparallel.thread=1
+
+###### **Note:**
+1. Video recording works well only on local and non parallel execution mode as the video recorder captures the screen.
+2. As screen action is been captured by video recorder don't perform any action on screen while test is executing.
