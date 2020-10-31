@@ -14,6 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.8.10</aspectj.version>
 		<suiteXmlFile>${basedir}/testng.xml</suiteXmlFile>
+		<parallel.thread>2</parallel.thread>
 		<skipTests>false</skipTests>
 		<name>surefire.testng.verbose</name>
 		<value>10</value>
@@ -67,7 +68,7 @@
 						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>
 					<parallel>methods</parallel>
-					<threadCount>2</threadCount>
+					<threadCount>${parallel.thread}</threadCount>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -154,6 +155,12 @@
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
 			<version>4.2.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.automation-remarks/video-recorder-testng -->
+		<dependency>
+			<groupId>com.automation-remarks</groupId>
+			<artifactId>video-recorder-testng</artifactId>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 </project>

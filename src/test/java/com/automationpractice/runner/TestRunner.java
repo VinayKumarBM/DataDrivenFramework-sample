@@ -3,6 +3,8 @@ package com.automationpractice.runner;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.automation.remarks.testng.UniversalVideoListener;
+import com.automation.remarks.video.annotations.Video;
 import com.automationpractice.listener.Listener;
 import com.automationpractice.scripts.CreateAccountScript;
 import com.automationpractice.scripts.LoginScript;
@@ -16,11 +18,12 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 
-@Listeners ({Listener.class})
+@Listeners ({Listener.class, UniversalVideoListener.class})
 @Epic ("My Store Epic")
 @Feature ("To test the functionality of My Store application")
 public class TestRunner extends TestBase{
 
+	@Video
 	@Test (groups = { "regression"})
 	@Severity (SeverityLevel.NORMAL)
 	@Description ("Test to verify the creation of new account")
@@ -31,6 +34,7 @@ public class TestRunner extends TestBase{
 		createAccountScript.createAnAccount(testCaseName);
 	}
 
+	@Video
 	@Test (groups = { "regression","smoke"})
 	@Severity (SeverityLevel.NORMAL)
 	@Description ("Test to verify the purchase the Printed Summary Dress")
@@ -41,6 +45,7 @@ public class TestRunner extends TestBase{
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
+	@Video
 	@Test (groups = { "regression"}) 
 	@Severity (SeverityLevel.NORMAL)
 	@Description ("Test to verify the purchase the Printed Chiffon Dress")
@@ -51,6 +56,7 @@ public class TestRunner extends TestBase{
 		productCheckoutScript.checkOutProduct(testCaseName);
 	}
 	
+	@Video
 	@Test
 	@Severity (SeverityLevel.NORMAL)
 	@Description ("Test to verify the login functionality with invalid credentials")

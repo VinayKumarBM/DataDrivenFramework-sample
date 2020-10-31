@@ -1,6 +1,9 @@
 package com.automationpractice.runner;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.OutputType;
@@ -38,7 +41,7 @@ public class TestBase {
 		launchBrowser(ConfigReader.getProperty("appUrl"));
 	}
 
-	@AfterMethod
+	@AfterMethod (alwaysRun = true)
 	public void browserTeardown(ITestResult result) {
 		WebDriver driver = DriverManager.getInstance().getDriver();
 		String testCaseName = result.getMethod().getConstructorOrMethod().getName();
@@ -98,6 +101,12 @@ public class TestBase {
 	@Attachment(value = "{0}", type = "text/html")
 	public static String attachHtml(String html) {
 		return html;
+	}
+
+	// Video attachments for Allure
+	@Attachment(value = "video",type="video/webm")
+	public byte[] attachVideo(String path) throws Exception {
+	    return Files.readAllBytes(Paths.get(new File(path).getAbsolutePath()));
 	}
 
 }
