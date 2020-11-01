@@ -19,21 +19,6 @@
 		<name>surefire.testng.verbose</name>
 		<value>10</value>
 	</properties>
-	<profiles>
-		<profile>
-			<id>test-smoke</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<configuration>
-							<groups>smoke</groups>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 	<build>
 		<plugins>
 			<plugin>
